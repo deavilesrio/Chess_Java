@@ -144,39 +144,40 @@ public class buildApp extends Tile {
                         //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem(), i);
                         //JOptionPane.showMessageDialog(frame, "Piece: Pawn " +  "\nColor: " + colorPiece + " at: " + curX + ", " + curY, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
 
+                        chessCount++;
                         
                     }else if(piece_dropdown_list.getSelectedItem().equals("Knight") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
         
                         mylistChess.add( new KnightMove(pieceName, colorPiece, cur_x, curY));
 
                         //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                 
-                    
+                        chessCount++;
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("Bishop") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new BishopMove(pieceName, colorPiece, cur_x, curY));
-
+                        chessCount++;
                         //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                  
                     
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("Rook") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                        
                         mylistChess.add( new RookMove(pieceName, colorPiece, cur_x, curY));
-
+                        chessCount++;
                             //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                
                         
                         }
                     else if(piece_dropdown_list.getSelectedItem().equals("Queen") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new QueenMove(pieceName, colorPiece, cur_x, curY));
-
+                        chessCount++;
                         //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                 
                     
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("King") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new KingMove(pieceName, colorPiece, cur_x, curY));
-
+                        chessCount++;
                             //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                
                         
                     }
@@ -232,7 +233,7 @@ public class buildApp extends Tile {
                         System.out.print(messeage);
                         JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
-                        chessCount++;
+                       //chessCount++;
                         addButton.setEnabled(true);
                         moveButton.setEnabled(false);
 
@@ -254,8 +255,8 @@ public class buildApp extends Tile {
                         JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
                         //chessCount++;
-                        addButton.setEnabled(false);
-                        moveButton.setEnabled(true);
+                        addButton.setEnabled(true);
+                        moveButton.setEnabled(false);
                     }
                 }
                 //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
@@ -275,7 +276,7 @@ public class buildApp extends Tile {
                     }
                 }
 
-                mylistChess.clear();
+                //mylistChess.clear();
                 //addButton.setEnabled(true);
                 //moveButton.setEnabled(false);
             }
