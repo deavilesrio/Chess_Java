@@ -14,12 +14,13 @@ public class BishopMove extends Figure {
     }
     @Override
     public boolean moveTo( LocationX new_x, int new_posY){
-        
-        if (Math.abs(new_x.ordinal() - cur_x.ordinal()) == Math.abs( (8-new_posY) - (8 - cur_y))) {
+        // System.out.println(Math.abs(new_x.ordinal() - cur_x.ordinal()));
+        // System.out.println(Math.abs( (8-new_posY) - (8 - cur_y)));
+        // System.out.println((8-new_posY));
+        // System.out.println((7 - cur_y));
+        if (Math.abs(new_x.ordinal() - cur_x.ordinal()) == Math.abs( (8-new_posY) - (7 - cur_y))) {
             // Valid move if the new position is within the board and not occupied
-            
             return true;
-
         }
         return false;
         

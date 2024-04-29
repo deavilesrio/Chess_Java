@@ -19,5 +19,8 @@ public class Tile extends JPanel {
     public void clearPieceIcon() {
         pieceLabel.setIcon(null);
     }
+    public Icon getPieceIcon() {
+        return pieceLabel.getIcon();
+    }
     
 }

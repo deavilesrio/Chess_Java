@@ -10,6 +10,10 @@ public class PawnMove extends Figure{
     
     @Override 
     public boolean moveTo(LocationX new_posX, int new_posY){
+        System.out.println("Beggining: " + (8-cur_y));
+        System.out.println((8-new_posY )+ " == " + (8-cur_y-1) + " && " + (new_posX.ordinal()) + " == " + (cur_x.ordinal()));
+        // System.out.println((8-new_posY));
+        // System.out.println((7 - cur_y));
     
         if(color.equals("White")){
             

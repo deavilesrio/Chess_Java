@@ -140,6 +140,7 @@ public class buildApp extends Tile {
                     for(Figure piece : mylistChess){
                         if(piece.name.equals(pieceName) ){
                             doublePiece = true;
+                            break;
                         }else{
                             doublePiece = false;
                         }
@@ -188,7 +189,7 @@ public class buildApp extends Tile {
                         
                     }
                     if(!doublePiece && board[8-curY][cur_x.ordinal()] == null ){
-                        Icon icon = new ImageIcon("/Users/anthonytrancoso/Desktop/CS 3331/art/" + color_dropdown_list.getSelectedItem() +"_"+ piece_dropdown_list.getSelectedItem()+ ".gif");
+                        Icon icon = new ImageIcon("art/" + color_dropdown_list.getSelectedItem() +"_"+ piece_dropdown_list.getSelectedItem()+ ".gif");
                         System.out.println("test");
                         board[8-curY][cur_x.ordinal()] = pieceString; //Adds a the piece name to an array of strings, to know where are the pieces located
                         boardCells[8-curY][cur_x.ordinal()].setPieceIcon(icon); //adds the image of the piece in the tile of the GUI Board
@@ -234,8 +235,9 @@ public class buildApp extends Tile {
                     //Checks all the pieces in board, if there are able to move                                  
                     
                     boolean isValid = piece.moveTo(newX, newY); //Calls the method that validates or not if movement is possible for a certain piece
-                    if (isValid && (piece.cur_x != newX || piece.cur_y != newY)) {
-                        messeage += piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
+                    System.out.println(boardCells[8 - newY][newX.ordinal()].getPieceIcon());
+                    if (isValid && (piece.cur_x != newX || piece.cur_y != newY) ) {
+                        messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
                         //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
@@ -244,10 +246,11 @@ public class buildApp extends Tile {
                         moveButton.setEnabled(false);
 
                         boardCells[8 - piece.cur_y][piece.cur_x.ordinal()].setPieceIcon(null);
+                        mylistChess.remove(piece); //remove from collection
                         piece.cur_x = newX;
                         piece.cur_y = newY;
 
-                        Icon iconn = new ImageIcon("/Users/anthonytrancoso/Desktop/CS 3331/art/" + colorPiece + "_" + piece.name + ".gif");
+                        Icon iconn = new ImageIcon("art/" + colorPiece + "_" + piece.name + ".gif");
                         boardCells[8 - newY][newX.ordinal()].setPieceIcon(iconn);
                         board[8 - piece.cur_y][piece.cur_x.ordinal()] = null;
                     } else if(piece.cur_x == newX && piece.cur_y == newY){
@@ -256,7 +259,7 @@ public class buildApp extends Tile {
                         addButton.setEnabled(false);
                         moveButton.setEnabled(true);
                     } else {
-                        messeage += piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
+                        messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
                         //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
