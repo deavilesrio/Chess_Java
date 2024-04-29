@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -54,6 +56,7 @@ public class buildApp extends Tile {
     static LocationX newX;
     static int newY;
 
+    static Set<PieceType> chosenPieces = new HashSet<>();
     static Collection<Figure> mylistChess = new ArrayList<>();
     static PieceType pieceName;
     static String colorPiece;
@@ -129,6 +132,9 @@ public class buildApp extends Tile {
                     //Gets Piece Name
                     String pieceString = String.valueOf(piece_dropdown_list.getSelectedItem());
                     pieceName = PieceType.valueOf(pieceString.toUpperCase());
+
+                    chosenPieces.add(pieceName);
+                    disableChosenPieces(piece_dropdown_list);
 
                     /* Checks if the piece already in the the collection myListChess, meaning piece was already used */
                     for(Figure piece : mylistChess){
@@ -231,7 +237,7 @@ public class buildApp extends Tile {
                     if (isValid && (piece.cur_x != newX || piece.cur_y != newY)) {
                         messeage += piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
-                        JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
+                        //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
                        //chessCount++;
                         addButton.setEnabled(true);
@@ -252,14 +258,14 @@ public class buildApp extends Tile {
                     } else {
                         messeage += piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
-                        JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
+                        //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
 
                         //chessCount++;
                         addButton.setEnabled(true);
                         moveButton.setEnabled(false);
                     }
                 }
-                //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
+                JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
                 
                 board[8 - newY][newX.ordinal()] = null;
                 new_location.setText("");
@@ -358,6 +364,12 @@ public class buildApp extends Tile {
                 board[i][j] = null;
                 boardCells[i][j].setPieceIcon(null);
             }
+        }
+    }
+
+    private static void disableChosenPieces(JComboBox<String> pieceDropdownList){
+        for (PieceType piece : chosenPieces){
+            pieceDropdownList.removeItem(piece.toString());
         }
     }
     
