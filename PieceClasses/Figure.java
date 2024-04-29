@@ -1,7 +1,7 @@
 package PieceClasses;
-import chessInterfaces.intFigure;
 import Types.LocationX;
 import Types.PieceType;
+import chessInterfaces.intFigure;
 
 
 public abstract class Figure implements intFigure{
@@ -22,5 +22,7 @@ public abstract class Figure implements intFigure{
 
     public abstract String toString();
 }
+
+
 
 

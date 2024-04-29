@@ -9,7 +9,8 @@ public class BishopMove extends Figure {
     public LocationX cur_x;
     public int cur_y;
     public BishopMove(PieceType Bishop, String color, LocationX cur_posX, int cur_posY){
-        super(Bishop, color, cur_posX, cur_posY); //King subclass inherits behaviors of superclass                                                                                                     Queen
+        super(Bishop, color, cur_posX, cur_posY);//King subclass inherits behaviors of superclass   
+        this.cur_x = cur_posX;                                                                                                  
     }
     @Override
     public boolean moveTo( LocationX new_x, int new_posY){
@@ -27,6 +28,8 @@ public class BishopMove extends Figure {
         return "";
     }
         
+
+
 
        
 }
