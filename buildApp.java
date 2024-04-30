@@ -45,17 +45,20 @@ import Types.PieceType;;
  */
 
 public class buildApp extends Tile {
+    /**static fields for the GUI components and game state */
     static JFrame frame = new JFrame("Chess Game Simulator");
     static Tile[][] boardCells = new Tile[8][8];
     static JPanel boardPanel = new JPanel(new GridLayout(8, 2)); 
+
+    /**static fields for the positions of the chess piece */
     static int curX;
     static LocationX cur_x;
     static int curY;
     static int chessCount;
-
     static LocationX newX;
     static int newY;
 
+    /**static fields for the attributes of chess pieces */
     static Set<PieceType> chosenPieces = new HashSet<>();
     static Collection<Figure> mylistChess = new ArrayList<>();
     static PieceType pieceName;
@@ -68,10 +71,18 @@ public class buildApp extends Tile {
 
     // static Map<Object, Integer> pieces_dictionary = new HashMap<>(); // or other implementations like TreeMap, LinkedHashMap, etc.
 
+    /**
+     * Constructor for the buildApp class
+     * @param backgroundColor The background color of the GUI components
+     */
     public buildApp(Color backgroundColor) {
         super(backgroundColor);
         //TODO Auto-generated constructor stub
     }
+
+    /**
+     * Creates and displays the GUI for the chess game
+     */
     public static void createAndShowGUI(){
         /* Drop downlists
          * -----------------------------------------------------------------------------------
@@ -98,6 +109,7 @@ public class buildApp extends Tile {
         JTextField current_location = new JTextField(5);
         JTextField new_location = new JTextField(0);
 
+        //adds buttons for the functionality of the game
         JButton addButton = new JButton("Add");
         JButton moveButton = new JButton("Move");
         moveButton.setEnabled(false);
@@ -147,55 +159,49 @@ public class buildApp extends Tile {
 
                     }
                     if(piece_dropdown_list.getSelectedItem().equals("Pawn") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
+                        
                         mylistChess.add( new PawnMove(pieceName, colorPiece, cur_x, curY));
-                        //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem(), i);
-                        //JOptionPane.showMessageDialog(frame, "Piece: Pawn " +  "\nColor: " + colorPiece + " at: " + curX + ", " + curY, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
-
                         chessCount++;
                         
                     }else if(piece_dropdown_list.getSelectedItem().equals("Knight") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
         
                         mylistChess.add( new KnightMove(pieceName, colorPiece, cur_x, curY));
-
-                        //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                 
                         chessCount++;
+
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("Bishop") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new BishopMove(pieceName, colorPiece, cur_x, curY));
-                        chessCount++;
-                        //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                  
-                    
+                        chessCount++;    
+
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("Rook") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                        
                         mylistChess.add( new RookMove(pieceName, colorPiece, cur_x, curY));
                         chessCount++;
-                            //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                
                         
                         }
                     else if(piece_dropdown_list.getSelectedItem().equals("Queen") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new QueenMove(pieceName, colorPiece, cur_x, curY));
                         chessCount++;
-                        //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                 
                     
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("King") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         
                         mylistChess.add( new KingMove(pieceName, colorPiece, cur_x, curY));
                         chessCount++;
-                            //pieces_dictionary.put(piece_dropdown_list.getSelectedItem().getSelectedItem());                
                         
                     }
                     if(!doublePiece && board[8-curY][cur_x.ordinal()] == null ){
                         Icon icon = new ImageIcon("art/" + color_dropdown_list.getSelectedItem() +"_"+ piece_dropdown_list.getSelectedItem()+ ".gif");
-                        System.out.println("test");
+                        //System.out.println("test");
                         board[8-curY][cur_x.ordinal()] = pieceString; //Adds a the piece name to an array of strings, to know where are the pieces located
                         boardCells[8-curY][cur_x.ordinal()].setPieceIcon(icon); //adds the image of the piece in the tile of the GUI Board
                         addButton.setEnabled(false);
                         moveButton.setEnabled(true);
                     }else if(board[8-curY][cur_x.ordinal()] != null){
+                        //displays message if occupied
                         JOptionPane.showMessageDialog(frame, "Position is occupied!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
                         addButton.setEnabled(true);
                         moveButton.setEnabled(false);
@@ -208,12 +214,10 @@ public class buildApp extends Tile {
                     }
                     
                 }
-                //addButton.setEnabled(false);
-                //moveButton.setEnabled(true);
+              
             }
         });
-            // ActionListener for the "Remove Task" button
-        //int chessCount = 0;
+           
         moveButton.addActionListener (new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e) {
@@ -221,15 +225,9 @@ public class buildApp extends Tile {
                 String[] arrOfnextMove = task.split(", ", 2);
                 newX = LocationX.valueOf(arrOfnextMove[0].toUpperCase());
                 newY = Integer.parseInt(arrOfnextMove[1]);
-                //String [] arrOfnextMove = task.split(", ", 2);
                  
-                //newY = Integer.parseInt(arrOfnextMove[1]);   //store in field current y
-                //String num_x = arrOfnextMove[0].toUpperCase(); //make the character uppercase
-                //conversion from String to Location X type
-                //newX = LocationX.valueOf(num_x); 
-                
                 String messeage = "";
-                //int chessCount = 0;
+            
 
                 for (Figure piece : mylistChess) {
                     //Checks all the pieces in board, if there are able to move                                  
@@ -239,9 +237,7 @@ public class buildApp extends Tile {
                     if (isValid && (piece.cur_x != newX || piece.cur_y != newY) ) {
                         messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
-                        //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
-
-                       //chessCount++;
+                        //changes button functionality
                         addButton.setEnabled(true);
                         moveButton.setEnabled(false);
 
@@ -250,10 +246,12 @@ public class buildApp extends Tile {
                         piece.cur_x = newX;
                         piece.cur_y = newY;
 
+                        //sets old position with null and new position with icon gif
                         Icon iconn = new ImageIcon("art/" + colorPiece + "_" + piece.name + ".gif");
                         boardCells[8 - newY][newX.ordinal()].setPieceIcon(iconn);
                         board[8 - piece.cur_y][piece.cur_x.ordinal()] = null;
                     } else if(piece.cur_x == newX && piece.cur_y == newY){
+                        //displays message for unvalid position
                         System.out.print("Please select another position for" + piece.name);
                         JOptionPane.showMessageDialog(frame, "Position not available!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
                         addButton.setEnabled(false);
@@ -261,9 +259,6 @@ public class buildApp extends Tile {
                     } else {
                         messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
                         System.out.print(messeage);
-                        //JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
-
-                        //chessCount++;
                         addButton.setEnabled(true);
                         moveButton.setEnabled(false);
                     }
@@ -272,9 +267,6 @@ public class buildApp extends Tile {
                 
                 board[8 - newY][newX.ordinal()] = null;
                 new_location.setText("");
-                //chessCount++;
-                //addButton.setEnabled(true);
-                //moveButton.setEnabled(false);
                 System.out.print(chessCount);
                 if (chessCount == 6){
                     frame.dispose();
@@ -285,9 +277,6 @@ public class buildApp extends Tile {
                     }
                 }
 
-                //mylistChess.clear();
-                //addButton.setEnabled(true);
-                //moveButton.setEnabled(false);
             }
         });
         /* --------------------------------------------------------------- */
@@ -349,11 +338,18 @@ public class buildApp extends Tile {
         /*Use GridLayout with 8 rows and 2 columns 
         This is making that the chess border stays in the center */
        
+        /**
+         * Initialies the chessboard GUI by creating the tiles
+         * Each tile represents a square on the chessboard
+         */
         for (int row = 0; row < 8; row++) {
+            //Iterate over each row and column to create tiles
             for (int col = 0; col < 8; col++) {
                 Color backgroundColor = (row + col) % 2 == 0 ? Color.WHITE : Color.GRAY;
+                //create a new tile with the calculated background color
                 Tile tile = new Tile(backgroundColor);
                 tile.setPreferredSize(new Dimension(75, 75));
+                //store the tile in the 2D array and add it to the board panel
                 boardCells[row][col] = tile;
                 boardPanel.add(tile);
             }
@@ -361,17 +357,36 @@ public class buildApp extends Tile {
         
     }
 
+    /**
+     * Clears the chessboard by removing all pieces and icons from the tiles.
+     * Sets the board array and piece icons to null.
+     */
     private static void clearBoard(){
+        //iterate over each row and column of the chessboard
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
+                //set the piece name in the board array to null
                 board[i][j] = null;
+                //set the piece icon on the tile to null
                 boardCells[i][j].setPieceIcon(null);
             }
         }
     }
 
+    /**
+     * Disables the selection of pieces that have already been chosen.
+     * Removes items from the JComboBox representing the available piece choices
+     * based on the pieces already selected and stored in the chosenPieces collection.
+     *
+     * @param pieceDropdownList The JComboBox containing the list of available piece choices.
+     *                          The method removes items from this dropdown list based on the pieces already chosen.
+     * @see JComboBox
+     * @see PieceType
+     */
     private static void disableChosenPieces(JComboBox<String> pieceDropdownList){
+        // Iterate through each piece that has been chosen
         for (PieceType piece : chosenPieces){
+            // Remove the item representing the chosen piece from the dropdown list
             pieceDropdownList.removeItem(piece.toString());
         }
     }
