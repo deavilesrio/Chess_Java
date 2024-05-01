@@ -1,5 +1,6 @@
 
 import javax.swing.SwingUtilities;
+import chessInterfaces.buildApp;
 
 /**
  * Entry point for the Chess Game Simulator application.

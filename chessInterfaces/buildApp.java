@@ -1,3 +1,4 @@
+package chessInterfaces;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,7 +32,7 @@ import PieceClasses.PawnMove;
 import PieceClasses.QueenMove;
 import PieceClasses.RookMove;
 import Types.LocationX;
-import Types.PieceType;;
+import Types.PieceType;
 
 /**
  * Main class for the chess game
@@ -79,7 +80,6 @@ public class buildApp extends Tile {
         super(backgroundColor);
         //TODO Auto-generated constructor stub
     }
-
     /**
      * Creates and displays the GUI for the chess game
      */
@@ -127,16 +127,9 @@ public class buildApp extends Tile {
                 clearBoard();
             // Get the postion text from the text field, trim leading and trail
                 String task = current_location.getText().trim();
-                
+                boolean moveCheck = getInitialPosition(task);
                 // Check if the task is not empty, then add it to the to-do list
-                if (!task.isEmpty()) {
-                    String [] arrOfnextMove = task.split(", ", 2);
-                 
-                    curY = Integer.parseInt(arrOfnextMove[1]);   //store in field current y
-                    String num_x = arrOfnextMove[0].toUpperCase(); //make the character uppercase
-                    System.out.println("num_x" + num_x);
-                    // //conversion from String to Location X type
-                    cur_x = LocationX.valueOf(num_x); 
+                if (!task.isEmpty() && moveCheck) {
                    
                     //Gets color piece
                     Object selectedItem = color_dropdown_list.getSelectedItem();
@@ -170,7 +163,8 @@ public class buildApp extends Tile {
 
                     }
                     else if(piece_dropdown_list.getSelectedItem().equals("Bishop") && !doublePiece && board[8-curY][cur_x.ordinal()] == null ){
-                        
+
+                        System.out.println("Bishop Test\n");
                         mylistChess.add( new BishopMove(pieceName, colorPiece, cur_x, curY));
                         chessCount++;    
 
@@ -222,58 +216,56 @@ public class buildApp extends Tile {
             @Override
             public void actionPerformed (ActionEvent e) {
                 String task = new_location.getText().trim();
-                String[] arrOfnextMove = task.split(", ", 2);
-                newX = LocationX.valueOf(arrOfnextMove[0].toUpperCase());
-                newY = Integer.parseInt(arrOfnextMove[1]);
-                 
-                String messeage = "";
-            
+                boolean moveCheck = getFinalPosition(task);
+                if (moveCheck) {
+                    String messeage = "";
 
-                for (Figure piece : mylistChess) {
-                    //Checks all the pieces in board, if there are able to move                                  
-                    
-                    boolean isValid = piece.moveTo(newX, newY); //Calls the method that validates or not if movement is possible for a certain piece
-                    System.out.println(boardCells[8 - newY][newX.ordinal()].getPieceIcon());
-                    if (isValid && (piece.cur_x != newX || piece.cur_y != newY) ) {
-                        messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
-                        System.out.print(messeage);
-                        //changes button functionality
-                        addButton.setEnabled(true);
-                        moveButton.setEnabled(false);
 
-                        boardCells[8 - piece.cur_y][piece.cur_x.ordinal()].setPieceIcon(null);
-                        mylistChess.remove(piece); //remove from collection
-                        piece.cur_x = newX;
-                        piece.cur_y = newY;
+                    for (Figure piece : mylistChess) {
+                        //Checks all the pieces in board, if there are able to move
 
-                        //sets old position with null and new position with icon gif
-                        Icon iconn = new ImageIcon("art/" + colorPiece + "_" + piece.name + ".gif");
-                        boardCells[8 - newY][newX.ordinal()].setPieceIcon(iconn);
-                        board[8 - piece.cur_y][piece.cur_x.ordinal()] = null;
-                    } else if(piece.cur_x == newX && piece.cur_y == newY){
-                        //displays message for unvalid position
-                        System.out.print("Please select another position for" + piece.name);
-                        JOptionPane.showMessageDialog(frame, "Position not available!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
-                        addButton.setEnabled(false);
-                        moveButton.setEnabled(true);
-                    } else {
-                        messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
-                        System.out.print(messeage);
-                        addButton.setEnabled(true);
-                        moveButton.setEnabled(false);
+                        boolean isValid = piece.moveTo(newX, newY); //Calls the method that validates or not if movement is possible for a certain piece
+                        System.out.println(boardCells[8 - newY][newX.ordinal()].getPieceIcon());
+                        if (isValid && (piece.cur_x != newX || piece.cur_y != newY) && board[8 - piece.cur_y][piece.cur_x.ordinal()] != null) {
+                            messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can move to " + newX + ", " + newY + ".\n";
+                            System.out.print(messeage);
+                            //changes button functionality
+                            addButton.setEnabled(true);
+                            moveButton.setEnabled(false);
+
+                            boardCells[8 - piece.cur_y][piece.cur_x.ordinal()].setPieceIcon(null);
+
+                            piece.cur_x = newX;
+                            piece.cur_y = newY;
+                            //sets old position with null and new position with icon gif
+                            Icon iconn = new ImageIcon("art/" + colorPiece + "_" + piece.name + ".gif");
+                            boardCells[8 - newY][newX.ordinal()].setPieceIcon(iconn);
+                            board[8 - piece.cur_y][piece.cur_x.ordinal()] = null;
+                        } else if (piece.cur_x == newX && piece.cur_y == newY) {
+                            //displays message for unvalid position
+                            System.out.print("Please select another position for" + piece.name);
+                            JOptionPane.showMessageDialog(frame, "Position not available!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
+                            addButton.setEnabled(false);
+                            moveButton.setEnabled(true);
+                        } else {
+                            messeage = piece.name + " at " + piece.cur_x + ", " + piece.cur_y + " can not move to " + newX + ", " + newY + ".\n";
+                            System.out.print(messeage);
+                            addButton.setEnabled(true);
+                            moveButton.setEnabled(false);
+                        }
                     }
-                }
-                JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
-                
-                board[8 - newY][newX.ordinal()] = null;
-                new_location.setText("");
-                System.out.print(chessCount);
-                if (chessCount == 6){
-                    frame.dispose();
-                } else{
-                    int option = JOptionPane.showConfirmDialog(frame, "Do you want to terminate the application?", "Terminate Application", JOptionPane.YES_NO_OPTION);
-                    if (option == JOptionPane.YES_OPTION) {
-                        frame.dispose(); // Close the frame
+                    JOptionPane.showMessageDialog(frame, messeage, "Pop-out Window", JOptionPane.INFORMATION_MESSAGE); // Pops a windows to show which pieces can move
+
+                    board[8 - newY][newX.ordinal()] = null;
+                    new_location.setText("");
+                    System.out.print(chessCount);
+                    if (chessCount == 6) {
+                        frame.dispose();
+                    } else {
+                        int option = JOptionPane.showConfirmDialog(frame, "Do you want to terminate the application?", "Terminate Application", JOptionPane.YES_NO_OPTION);
+                        if (option == JOptionPane.YES_OPTION) {
+                            frame.dispose(); // Close the frame
+                        }
                     }
                 }
 
@@ -388,6 +380,32 @@ public class buildApp extends Tile {
         for (PieceType piece : chosenPieces){
             // Remove the item representing the chosen piece from the dropdown list
             pieceDropdownList.removeItem(piece.toString());
+        }
+    }
+    public static boolean getInitialPosition(String task){
+        try {
+            String [] arrOfnextMove = task.split(", ", 2);
+            curY = Integer.parseInt(arrOfnextMove[1]);   //store in field current y
+            String num_x = arrOfnextMove[0].toUpperCase(); //make the character uppercase
+            //conversion from String to Location X type
+            cur_x = LocationX.valueOf(num_x);
+            return cur_x.ordinal() >= 0 && cur_x.ordinal() <= 7 && curY <= 8 && curY >= 0;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(frame,"Invalid Input, Correct Example (a, 8)!!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+    }
+    public static boolean getFinalPosition(String task){
+        try {
+            String [] arrOfnextMove = task.split(", ", 2);
+            newY = Integer.parseInt(arrOfnextMove[1]);   //store in field current y
+            String num_x = arrOfnextMove[0].toUpperCase(); //make the character uppercase
+            //conversion from String to Location X type
+            newX = LocationX.valueOf(num_x);
+            return newX.ordinal() >= 0 && newX.ordinal() <= 7 && newY <= 8 && newY >= 0;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(frame,"Invalid Input, Correct Example (a, 8)!!", "Pop-out Window", JOptionPane.INFORMATION_MESSAGE);
+            return false;
         }
     }
     

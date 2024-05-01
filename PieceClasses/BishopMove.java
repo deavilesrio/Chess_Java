@@ -20,13 +20,13 @@ public class BishopMove extends Figure {
      * @param cur_posX The current X position of the bishop on the board (LocationX).
      * @param cur_posY The current Y position of the bishop on the board (int).
      */
-    public PieceType name;
-    public String color;
-    public LocationX cur_x;
-    public int cur_y;
+    // public PieceType name;
+    // public String color;
+    // public LocationX cur_x;
+    // public int cur_y;
     public BishopMove(PieceType Bishop, String color, LocationX cur_posX, int cur_posY){
         super(Bishop, color, cur_posX, cur_posY);//King subclass inherits behaviors of superclass   
-        this.cur_x = cur_posX;                                                                                     
+        // this.cur_x = cur_posX;                                                                                     
     }
 
     /**
@@ -38,9 +38,14 @@ public class BishopMove extends Figure {
      */
     @Override
     public boolean moveTo( LocationX new_x, int new_posY){
-        if (Math.abs(new_x.ordinal() - cur_x.ordinal()) == Math.abs( (8-new_posY) - (7 - cur_y))) {
-            // Valid move if the new position is within the board and not occupied
+        System.out.println(cur_x.ordinal() +", "+cur_y);
+        System.out.println(new_x.ordinal() +", "+new_posY);
+        System.out.println((8-new_posY) + " - " +(8 - cur_y));
+        System.out.println(Math.abs(new_x.ordinal() - cur_x.ordinal()) + " == " + Math.abs( (8-new_posY) - (8 - cur_y)));
+        if (Math.abs(new_x.ordinal() - cur_x.ordinal()) == Math.abs( (8-new_posY) - (8 - cur_y)) ) {
+            // Valid move if the new position forms a diagonal movement
             return true;
+
         }
         return false;
         
